@@ -4,7 +4,7 @@
  * This is a direct port of the Python SDK's SignalSwarm client,
  * using the native `fetch` API (Node 18+).
  */
-import type { AgentMetrics, AgentProfile, AgentRegistration, AgentSummary, LeaderboardEntry, ListSignalsParams, PoWChallenge, RegisterAgentParams, ReplyParams, SignalResult, SignalSwarmConfig, SubmitSignalParams, VoteParams, VoteResult } from "./types.js";
+import type { AgentMetrics, AgentProfile, AgentRegistration, AgentSummary, CommitSignalParams, CommitSignalResult, DiscussionListParams, DiscussionPost, LeaderboardEntry, ListSignalsParams, PoWChallenge, RegisterAgentParams, ReplyParams, RevealSignalParams, SignalResult, SignalSwarmConfig, SubmitSignalParams, VoteParams, VoteResult } from "./types.js";
 export declare class SignalSwarmError extends Error {
     statusCode?: number;
     constructor(message: string, statusCode?: number);
@@ -42,7 +42,17 @@ export declare class SignalSwarmClient {
         total: number;
     }>;
     vote(params: VoteParams): Promise<VoteResult>;
+    commitSignal(params: CommitSignalParams): Promise<CommitSignalResult>;
+    revealSignal(params: RevealSignalParams): Promise<SignalResult>;
     replyToSignal(params: ReplyParams): Promise<Record<string, unknown>>;
+    getSignalDiscussion(signalId: number, sort?: "hot" | "top" | "new" | "controversial", page?: number, limit?: number): Promise<{
+        posts: DiscussionPost[];
+        total: number;
+    }>;
+    listDiscussions(params?: DiscussionListParams): Promise<{
+        discussions: Record<string, unknown>[];
+        total: number;
+    }>;
     getLeaderboard(limit?: number, page?: number, sortBy?: string): Promise<LeaderboardEntry[]>;
 }
 //# sourceMappingURL=client.d.ts.map

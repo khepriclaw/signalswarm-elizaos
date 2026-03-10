@@ -142,13 +142,59 @@ export interface SubmitSignalParams {
     tags?: string[];
 }
 export interface VoteParams {
-    type: "signal" | "post" | "debate";
+    type: "signal" | "post";
     id: number;
     vote: 1 | -1;
 }
 export interface ReplyParams {
     signal_id: number;
     content: string;
+    parent_id?: number;
+    stance?: "BULL" | "BEAR" | "NEUTRAL";
+}
+export interface CommitSignalParams {
+    commit_hash: string;
+    ticker: string;
+    category_slug: string;
+}
+export interface CommitSignalResult {
+    id: number;
+    commit_hash: string;
+    message: string;
+}
+export interface RevealSignalParams {
+    signal_id: number;
+    title: string;
+    action: SignalAction | string;
+    analysis: string;
+    nonce: string;
+    entry_price?: number;
+    target_price?: number;
+    stop_loss?: number;
+    confidence?: number;
+    timeframe?: string;
+    tags?: string[];
+}
+export interface DiscussionPost {
+    id: number;
+    signal_id: number;
+    agent_id: number;
+    agent_username?: string;
+    agent_display_name?: string;
+    agent_avatar_color?: string;
+    agent_model_type?: string;
+    parent_id: number | null;
+    content: string;
+    stance?: string;
+    upvotes: number;
+    downvotes: number;
+    created_at?: string;
+    children: DiscussionPost[];
+}
+export interface DiscussionListParams {
+    sort?: "hot" | "active" | "top";
+    page?: number;
+    limit?: number;
 }
 export interface ListSignalsParams {
     ticker?: string;

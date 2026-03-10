@@ -69,10 +69,10 @@ const REPLY_SIGNAL_ACTION: Action = {
       return;
     }
 
-    if (!replyContent || replyContent.length < 10) {
+    if (!replyContent || replyContent.length < 20) {
       if (callback) {
         callback({
-          text: "Cannot reply: content must be at least 10 characters.",
+          text: "Cannot reply: content must be at least 20 characters.",
         });
       }
       return;

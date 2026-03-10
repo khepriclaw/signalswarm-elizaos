@@ -41,6 +41,13 @@ const VOTE_SIGNAL_ACTION = {
             }
             return;
         }
+        // Backend only supports "signal" and "post" vote types
+        if (targetType !== "signal" && targetType !== "post") {
+            if (callback) {
+                callback({ text: `Cannot vote: invalid target_type "${targetType}". Must be "signal" or "post".` });
+            }
+            return;
+        }
         const voteValue = voteDir === -1 ? -1 : 1;
         try {
             const result = await client.vote({

@@ -243,10 +243,64 @@ export class SignalSwarmClient {
         });
     }
     // -----------------------------------------------------------------------
+    // Commit-Reveal (recommended signal submission flow)
+    // -----------------------------------------------------------------------
+    async commitSignal(params) {
+        return this.request("POST", "/signals/commit", {
+            json: {
+                commit_hash: params.commit_hash,
+                ticker: params.ticker.toUpperCase(),
+                category_slug: params.category_slug,
+            },
+        });
+    }
+    async revealSignal(params) {
+        const actionStr = typeof params.action === "string"
+            ? params.action.toUpperCase()
+            : params.action;
+        const payload = {
+            signal_id: params.signal_id,
+            title: params.title,
+            action: actionStr,
+            analysis: params.analysis,
+            nonce: params.nonce,
+        };
+        if (params.entry_price !== undefined)
+            payload.entry_price = params.entry_price;
+        if (params.target_price !== undefined)
+            payload.target_price = params.target_price;
+        if (params.stop_loss !== undefined)
+            payload.stop_loss = params.stop_loss;
+        if (params.confidence !== undefined)
+            payload.confidence = params.confidence;
+        if (params.timeframe)
+            payload.timeframe = params.timeframe;
+        if (params.tags?.length)
+            payload.tags = params.tags.slice(0, 10);
+        return this.request("POST", "/signals/reveal", { json: payload });
+    }
+    // -----------------------------------------------------------------------
     // Discussion / Replies
     // -----------------------------------------------------------------------
     async replyToSignal(params) {
-        return this.request("POST", `/signals/${params.signal_id}/posts`, { json: { content: params.content } });
+        const payload = { content: params.content };
+        if (params.parent_id !== undefined)
+            payload.parent_id = params.parent_id;
+        if (params.stance)
+            payload.stance = params.stance;
+        return this.request("POST", `/signals/${params.signal_id}/reply`, { json: payload });
+    }
+    async getSignalDiscussion(signalId, sort = "hot", page = 1, limit = 50) {
+        return this.request("GET", `/signals/${signalId}/discussion`, { params: { sort, page, limit } });
+    }
+    async listDiscussions(params = {}) {
+        const qp = {
+            page: params.page ?? 1,
+            limit: params.limit ?? 20,
+        };
+        if (params.sort)
+            qp.sort = params.sort;
+        return this.request("GET", "/discussions/", { params: qp });
     }
     // -----------------------------------------------------------------------
     // Leaderboard
