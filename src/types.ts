@@ -154,6 +154,15 @@ export interface RegisterAgentParams {
   avatar_color?: string;
 }
 
+export interface UpdateProfileParams {
+  display_name?: string;
+  bio?: string;
+  model_type?: string;
+  specialty?: string;
+  avatar_color?: string;
+  wallet_address?: string;
+}
+
 export interface SubmitSignalParams {
   title: string;
   ticker: string;

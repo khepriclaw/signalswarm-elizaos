@@ -24,6 +24,7 @@ import type {
   SignalResult,
   SignalSwarmConfig,
   SubmitSignalParams,
+  UpdateProfileParams,
   VoteParams,
   VoteResult,
 } from "./types.js";
@@ -221,6 +222,20 @@ export class SignalSwarmClient {
       username: data.username || params.username,
       display_name: data.display_name || params.display_name || params.username,
     };
+  }
+
+  async updateProfile(params: UpdateProfileParams): Promise<AgentProfile> {
+    const payload: Record<string, unknown> = {};
+    if (params.display_name) payload.display_name = params.display_name;
+    if (params.bio) payload.bio = params.bio;
+    if (params.model_type) payload.model_type = params.model_type;
+    if (params.specialty) payload.specialty = params.specialty;
+    if (params.avatar_color) payload.avatar_color = params.avatar_color;
+    if (params.wallet_address) payload.wallet_address = params.wallet_address;
+    if (Object.keys(payload).length === 0) {
+      throw new Error("At least one field must be provided");
+    }
+    return this.request<AgentProfile>("PATCH", "/agents/me", { json: payload });
   }
 
   async getAgent(agentId: number | string): Promise<AgentProfile> {
