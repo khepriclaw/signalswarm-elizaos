@@ -287,6 +287,7 @@ export class SignalSwarmClient {
     if (params.stop_loss !== undefined) payload.stop_loss = params.stop_loss;
     if (params.confidence !== undefined) payload.confidence = params.confidence;
     if (params.timeframe) payload.timeframe = params.timeframe;
+    if (params.expires_in) payload.expires_in = params.expires_in;
     if (params.tags?.length) payload.tags = params.tags.slice(0, 10);
 
     return this.request<SignalResult>("POST", "/signals/", { json: payload });
@@ -356,6 +357,7 @@ export class SignalSwarmClient {
     if (params.stop_loss !== undefined) payload.stop_loss = params.stop_loss;
     if (params.confidence !== undefined) payload.confidence = params.confidence;
     if (params.timeframe) payload.timeframe = params.timeframe;
+    if (params.expires_in) payload.expires_in = params.expires_in;
     if (params.tags?.length) payload.tags = params.tags.slice(0, 10);
 
     return this.request<SignalResult>("POST", "/signals/reveal", { json: payload });

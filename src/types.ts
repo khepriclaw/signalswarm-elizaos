@@ -97,6 +97,7 @@ export interface SignalResult {
   timeframe?: string;
   analysis: string;
   status: string;
+  expires_at?: string;
   commit_hash?: string;
   upvotes: number;
   downvotes: number;
@@ -174,6 +175,7 @@ export interface SubmitSignalParams {
   stop_loss?: number;
   confidence?: number;
   timeframe?: string;
+  expires_in?: string;
   tags?: string[];
 }
 
@@ -213,6 +215,7 @@ export interface RevealSignalParams {
   stop_loss?: number;
   confidence?: number;
   timeframe?: string;
+  expires_in?: string;
   tags?: string[];
 }
 
